@@ -1,20 +1,25 @@
 <?php
 include_once 'conexion.php';
+
 if (isset($_POST['ingresar'])) {
     $ced=$_POST['ced'];
+    $psw=$_POST['psw'];
     $nom=$_POST['nom'];
     $ape=$_POST['ape'];
-    $psw=$_POST['psw'];
-    $int=0;
-$sql="INSERT INTO usuariose (ID_USU,NOM_USU,APE_USU,INTENTO,PSW_USU)
-VALUES ('$ced','$nom','$ape','$int','$psw')";
-    $conn->query($sql);
-    if (!$conn) {
-        die(json_encode($conn->error()));
-    }
-    header("Location: login.php");
+    
+
+$sql="INSERT INTO usuariose (ID_USU,PSW,NOM_USU,APE_USU)
+VALUES ('$ced','$psw','$nom','$ape')";
+$conn->query($sql);
+ header("Location: login.php");
+    exit();
 }
 
+if (isset($_POST['volver'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -25,18 +30,15 @@ VALUES ('$ced','$nom','$ape','$int','$psw')";
     <title>registro</title>
 </head>
 <body>
-    <a href="login.php">volver</a>
-    <h1>Registrar</h1>
-    <form action="registro.php" method="POST">
-        cedula: <input type="text" name="ced" id="ced">
-        <br>
-        nombre: <input type="text" name="nom" id="nom">
-        <br>
-      apellido: <input type="text" name="ape" id="ape">
-      <br>
-      Clave: <input type="text" name="psw" id="psw">
-      <input type="submit" value="ingresar" name="ingresar">
-
-    </form>
+    <section>
+        <form action="registro.php" method="POST">
+            cedula: <input type="text" name="ced" id="ced">
+            contrasenia: <input type="text" name="psw" id="psw">
+            nombre: <input type="text" name="nom" id="nom">
+            apellido: <input type="text" name="ape" id="ape">
+            <input type="submit" value="ingresar" name="ingresar">
+            <input type="submit" value="volver" name="volver">
+        </form>
+    </section>
 </body>
 </html>
